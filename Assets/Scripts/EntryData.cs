@@ -11,26 +11,31 @@ namespace AbrahamDev
         public float Height;
 
         public char[] EntryType;
+
         public GameObject VisualGo;
 
+        //Check other entry overlaps with this one
         public bool Overlaps(EntryData other)
         {
             return OverlapX(other) && OverlapY(other);
         }
 
+        //Check for overlap on the X
         private bool OverlapX(EntryData other)
         {
-            return valueInRange(X, other.X, other.Right()) || valueInRange(other.X, X, Right());
+            return ValueInRange(X, other.X, other.Right()) || ValueInRange(other.X, X, Right());
         }
 
+        //Check for overlap on the Y
         private bool OverlapY(EntryData other)
         {
-            return valueInRange(Y, other.Y, other.Top()) || valueInRange(other.Y, Y, Top());
+            return ValueInRange(Y, other.Y, other.Top()) || ValueInRange(other.Y, Y, Top());
         }
 
-        bool valueInRange(float value, float min, float max)
+        //Check if the values overlaps
+        private bool ValueInRange(float value, float min, float max)
         {
-            return (value >= min) && (value <= max);
+            return value >= min && value <= max;
         }
 
         public float Top()
@@ -43,7 +48,7 @@ namespace AbrahamDev
             return X + Width;
         }
 
-
+        //Constructor for the entry data
         public EntryData(string[] data, int index)
         {
             X = float.Parse(data[0]);
@@ -55,6 +60,7 @@ namespace AbrahamDev
             BuildVisual(index);
         }
 
+        //Create the visual object and add it's components
         public void BuildVisual(int index)
         {
             var go = Object.Instantiate(MainSetup.Instance.TheVisualPrefab);
@@ -63,8 +69,7 @@ namespace AbrahamDev
             go.name = "Data : " + index;
             VisualGo = go;
             if (EntryType != null)
-                for (int i = 0; i < EntryType.Length; i++)
-                {
+                for (var i = 0; i < EntryType.Length; i++)
                     switch (EntryType[i])
                     {
                         case 'H':
@@ -83,16 +88,13 @@ namespace AbrahamDev
                             Debug.Log("Unknown Component type: ");
                             break;
                     }
-                }
         }
 
+        //Add a component if it doesn't have it
         private void AddCom<T>(GameObject go) where T : BaseComponent
         {
             var hasComponent = go.GetComponent<T>();
-            if (hasComponent == null)
-            {
-                go.AddComponent<T>();
-            }
+            if (hasComponent == null) go.AddComponent<T>();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace AbrahamDev
         public int X;
         public int Y;
 
+        //Check the given entry overlaps with the entries in the list
         public bool HasOverlapOnThisZone(EntryData data)
         {
             for (var i = 0; i < Datas.Count; i++)
@@ -20,8 +21,8 @@ namespace AbrahamDev
             return false;
         }
 
-
-        public void CheckForNeibors(Dictionary<Vector2, EntryList> grid)
+        //Check for entry list neighbors
+        public void CheckForNeighbors(Dictionary<Vector2, EntryList> grid)
         {
             var right = new Vector2(X + 1, Y);
             var up = new Vector2(X, Y + 1);
@@ -35,7 +36,6 @@ namespace AbrahamDev
         }
 
         public EntryList Right, Up, UpRight;
-
 
         public int AllMyCollitions()
         {
@@ -59,6 +59,7 @@ namespace AbrahamDev
             return total;
         }
 
+        //Check all the overlaps with the given entry list
         public int TotalOverlapsForNode(EntryList data)
         {
             var total = 0;
