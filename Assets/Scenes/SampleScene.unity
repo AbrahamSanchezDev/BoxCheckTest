@@ -330,6 +330,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: []
   TheVisualPrefab: {fileID: 1375302516790181347, guid: 550e134075eaa1540a9959e341558646, type: 3}
+  _minX: 0
+  _minY: 0
+  _maxX: 0
+  _maxY: 0
 --- !u!4 &1491081099
 Transform:
   m_ObjectHideFlags: 0

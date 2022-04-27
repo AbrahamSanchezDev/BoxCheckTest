@@ -59,23 +59,31 @@ namespace AbrahamDev
 
             //Create testing coordinate 
             var curGrid = new Vector2();
-            //TODO stuck at detecting collitions
+            //TODO stuck at detecting collisions
             for (var i = _minX; i <= _maxX; i++)
             for (var j = _minY; j <= _maxY; j++)
             {
                 curGrid.x = i;
                 curGrid.y = j;
                 var cur = Grid[curGrid];
-                Debug.Log(curGrid + "  :  " + cur.Datas.Count);
-
-                //Test only the first in the loop
+                var allAroundEntries = cur.CheckForNeighbors(Grid);
                 if (i == -9 && j == -9)
-                {
-                    var total = cur.AllMyCollitions();
-                    Debug.Log("Total " + total);
-                    return;
-                }
+                    CheckForUniqueCollisions(allAroundEntries);
             }
+        }
+
+        //Check on all objects in the list
+        private void CheckForUniqueCollisions(List<EntryList> data)
+        {
+            var allDatas = new List<EntryData>();
+            var total = 0;
+            for (var i = 0; i < data.Count; i++)
+            {
+                total += data[i].Datas.Count;
+                allDatas.AddRange(data[i].Datas);
+            }
+
+            Debug.Log("Total objects in list: " + allDatas.Count + " : " + total);
         }
 
         private int _gridSize = 100;

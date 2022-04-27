@@ -11,52 +11,39 @@ namespace AbrahamDev
         public int X;
         public int Y;
 
-        //Check the given entry overlaps with the entries in the list
-        public bool HasOverlapOnThisZone(EntryData data)
-        {
-            for (var i = 0; i < Datas.Count; i++)
-                if (Datas[i].Overlaps(data))
-                    return true;
-
-            return false;
-        }
-
         //Check for entry list neighbors
-        public void CheckForNeighbors(Dictionary<Vector2, EntryList> grid)
+        public List<EntryList> CheckForNeighbors(Dictionary<Vector2, EntryList> grid)
         {
+            var left = new Vector2(X - 1, Y);
             var right = new Vector2(X + 1, Y);
+
+            var down = new Vector2(X, Y - 1);
             var up = new Vector2(X, Y + 1);
+
             var upRight = new Vector2(X + 1, Y + 1);
+            var upLeft = new Vector2(X - 1, Y + 1);
 
-            if (grid.ContainsKey(right)) Right = grid[right];
+            var downRight = new Vector2(X + 1, Y - 1);
+            var downLeft = new Vector2(X - 1, Y - 1);
 
-            if (grid.ContainsKey(up)) Up = grid[up];
+            var listOfAreas = new List<EntryList>();
+            //TODO maybe map the position and only check the edges?
+            var theList = new Dictionary<int, List<EntryData>>();
 
-            if (grid.ContainsKey(upRight)) UpRight = grid[upRight];
-        }
+            listOfAreas.Add(this);
+            //all sides
+            if (grid.ContainsKey(left)) listOfAreas.Add(grid[left]);
+            if (grid.ContainsKey(right)) listOfAreas.Add(grid[right]);
+            if (grid.ContainsKey(up)) listOfAreas.Add(grid[up]);
+            if (grid.ContainsKey(down)) listOfAreas.Add(grid[down]);
+            //Upper edges
+            if (grid.ContainsKey(upRight)) listOfAreas.Add(grid[upRight]);
+            if (grid.ContainsKey(upLeft)) listOfAreas.Add(grid[upLeft]);
+            //Lower edges
+            if (grid.ContainsKey(downRight)) listOfAreas.Add(grid[downRight]);
+            if (grid.ContainsKey(downLeft)) listOfAreas.Add(grid[downLeft]);
 
-        public EntryList Right, Up, UpRight;
-
-        public int AllMyCollitions()
-        {
-            var total = 0;
-            total += TotalOverlapsForNode(this);
-            //if (Right != null)
-            //{
-            //    total += Right.TotalOverlapsForNode(this);
-            //}
-
-            //if (Up != null)
-            //{
-            //    total += Up.TotalOverlapsForNode(this);
-            //}
-
-            //if (UpRight != null)
-            //{
-            //    total += UpRight.TotalOverlapsForNode(this);
-            //}
-
-            return total;
+            return listOfAreas;
         }
 
         //Check all the overlaps with the given entry list

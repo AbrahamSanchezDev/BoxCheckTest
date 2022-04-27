@@ -10,6 +10,8 @@ namespace AbrahamDev
         public float Width;
         public float Height;
 
+        public int UniqueIndex;
+
         public char[] EntryType;
 
         public GameObject VisualGo;
@@ -55,6 +57,7 @@ namespace AbrahamDev
             Y = float.Parse(data[1]);
             Width = float.Parse(data[2]);
             Height = float.Parse(data[3]);
+            UniqueIndex = index;
             if (!string.IsNullOrEmpty(data[4])) EntryType = data[4].ToCharArray();
 
             BuildVisual(index);
